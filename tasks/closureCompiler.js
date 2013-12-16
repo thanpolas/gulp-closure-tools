@@ -20,7 +20,7 @@ var taskLib = require('task-closure-tools');
 var cCompiler = taskLib.compiler;
 var cHelpers = taskLib.helpers;
 
-module.exports = function( opts ) {
+module.exports = function(dest, opts) {
   var options = opts;
   if ( !cCompiler.validateOpts( options ) ) {
     gutil.log('ERROR :: closureCompiler Task Failed :: Options');
@@ -29,12 +29,12 @@ module.exports = function( opts ) {
 
 
   function closureCompiler(file, done) {
-
     var commands = [];
-    var targetName = this.target;
+    var targetName = dest;
 
     var fileObj = {
-      src: file,
+      src: file.path,
+      dest: dest,
     };
     var errmsg;
 
