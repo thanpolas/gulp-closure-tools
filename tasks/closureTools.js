@@ -3,7 +3,7 @@
  *
  */
 
-var localGrunt = require('grunt');
+var gutil = require('gulp-util');
 
 var taskLib = require('task-closure-tools');
 
@@ -23,15 +23,14 @@ var cTools = module.exports = function(grunt) {
 
 // overwrite helper's logging methods
 cHelpers.log = {
-  warn: function(msg) { localGrunt.log.warn(msg); },
-  info: function(msg) { localGrunt.log.writeln(msg); },
-  error: function(msg) { localGrunt.log.error(msg); },
+  warn: function(msg) { gutil.log('WARN ::', msg); },
+  info: function(msg) { gutil.log('INFO ::', msg); },
+  error: function(msg) { gutil.log('ERROR ::', msg); },
   debug: function(debug, msg) {
     if ( !debug ) return;
-    localGrunt.log.writeln( 'debug :: '.blue + msg );
+    gutil.log( 'DEBUG :: '.blue + msg );
   }
 };
-
 
 // Expose internal API
 cTools.helpers = taskLib.helpers;

@@ -30,13 +30,16 @@
   },
   "dependencies": {
     "grunt": "~0.4.0",
-    "task-closure-tools": "~0.1.1"
+    "task-closure-tools": "~0.1.1",
+    "event-stream": "~3.0.20",
+    "gulp-util": "~2.1.4"
   },
   "devDependencies": {
     "sinon": "1.5.2",
     "grunt-release": "~0.6.0",
     "closure-tools": "~0.1.4",
-    "superstartup-closure-compiler": "~0.1.6"
+    "superstartup-closure-compiler": "~0.1.6",
+    "gulp": "~3.1.4"
   },
   "keywords": [
     "gulpfriendly",
