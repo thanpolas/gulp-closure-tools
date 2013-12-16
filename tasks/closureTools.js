@@ -3,7 +3,6 @@
  *
  */
 
-var es = require('event-stream');
 var gutil = require('gulp-util');
 var taskLib = require('task-closure-tools');
 
@@ -13,23 +12,6 @@ var cCompiler = require('./closureCompiler');
 var cDepsWriter = require('./closureDepsWriter');
 
 var cTools = module.exports = {};
-
-
-cTools.builder = function(opts) {
-  return es.map(cTools.run.bind(null, opts));
-};
-
-/**
- * Executes.
- *
- * @param {Object} opts Options passed.
- * @param {string} file the filename.
- * @param {Function} done the callback.
- */
-cTools.run = function(opts, file, done) {
-
-  done(null, file);
-};
 
 // overwrite helper's logging methods
 cHelpers.log = {
@@ -42,9 +24,9 @@ cHelpers.log = {
   }
 };
 
-// Expose internal API
+// Expose Tasks
 cTools.helpers = taskLib.helpers;
-cTools.builder = taskLib.builder;
-cTools.compiler = taskLib.compiler;
-cTools.depsWriter = taskLib.depsWriter;
+cTools.builder = cBuilder;
+cTools.compiler = cCompiler;
+cTools.depsWriter = cDepsWriter;
 cTools.closureOpts = taskLib.closureOpts;
