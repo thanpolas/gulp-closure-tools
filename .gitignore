@@ -4,3 +4,4 @@ closure-library
 build/closure_compiler/compiler.jar
 test/server2js
 test/ready.js
+temp

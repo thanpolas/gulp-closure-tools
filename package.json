@@ -1,0 +1,51 @@
+{
+  "name": "gulp-closure-tools",
+  "description": "Google Closure Library Tools for Gulp, Compiler, DepsWriter, Builder.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/thanpolas/gulp-closure-tools",
+  "author": {
+    "name": "Thanasis Polychronakis",
+    "email": "thanpolas@gmail.com",
+    "url": "http://thanpol.as"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thanpolas/gulp-closure-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thanpolas/gulp-closure-tools/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/thanpolas/gulp-closure-tools/blob/master/LICENSE-MIT"
+    }
+  ],
+  "main": "index.js",
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt": "~0.4.0",
+    "task-closure-tools": "~0.1.1"
+  },
+  "devDependencies": {
+    "sinon": "1.5.2",
+    "grunt-release": "~0.6.0",
+    "closure-tools": "~0.1.4",
+    "superstartup-closure-compiler": "~0.1.6"
+  },
+  "keywords": [
+    "gulpfriendly",
+    "Closure Compiler",
+    "minification",
+    "Closure Builder",
+    "Google Closure Library",
+    "Closure tools",
+    "Closure DepsWriter",
+    "Performance"
+  ]
+}
