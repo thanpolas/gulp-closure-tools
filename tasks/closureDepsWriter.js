@@ -7,54 +7,56 @@
  *
  */
 
+var es = require('event-stream');
+var gutil = require('gulp-util');
 var taskLib = require('task-closure-tools');
 var cDepsWriter = taskLib.depsWriter;
 var cHelpers = taskLib.helpers;
 
-module.exports = function(grunt) {
-  grunt.registerMultiTask('closureDepsWriter', 'Google Closure Library Dependency Calculator script', function() {
+module.exports = function(opts) {
 
-    // Tell grunt this task is asynchronous.
-    var compileDone = this.async();
+  var options = opts();
 
-    var options = this.options();
+  if ( !cDepsWriter.validate( options ) ) {
+    var err = new Error('FAILED to run closureDepsWriter task, Validation Error.');
+    gutil.log(err.message);
+    throw err;
+  }
 
-    if ( !cDepsWriter.validate( options ) ) {
-      grunt.log.error('closureDepsWriter Task Failed');
-      return;
+  function depsWriter(file, done) {
+    var commands = [];
+    var targetName = file;
+    var errmsg;
+    var fileObj = {
+      src: file,
+    };
+
+    var cmd = cDepsWriter.createCommand( options, fileObj );
+
+    if (cmd) {
+      commands.push( {cmd: cmd, dest: targetName} );
+    } else {
+      errmsg = 'Failed to create command line for target: ' + targetName.red ;
+      gutil.log(errmsg);
+      return done(errmsg);
     }
 
-    // Iterate over all specified file groups.
-    var commands = [], cmd,
-        targetName = this.target,
-        hadFile = false;
 
-    function createCommand( fileObj ) {
-      hadFile = true;
-      cmd = cDepsWriter.createCommand( options, fileObj );
-
-      if ( cmd ) {
-        commands.push( {cmd: cmd, dest: targetName} );
-      } else {
-        grunt.log.error( 'FAILED to create command line for target: ' + targetName.red );
-      }
-    }
-
-    this.files.forEach( createCommand );
-
-    if ( !hadFile ) {
-      createCommand( {} );
-    }
-
-    if ( 0 === commands.length ) {
-      grunt.log.error('No commands produced for shell execution. Check your config file');
-      compileDone(false);
-      return;
+    if (commands.length === 0) {
+      errmsg = 'No commands produced for shell execution. Check your config file';
+      gutil.log(errmsg);
+      return done(errmsg);
     }
 
     // release the kraken!
-    cHelpers.runCommands( commands, compileDone, false, options.execOpts );
+    cHelpers.runCommands(commands, function(state) {
+      if (!state) {
+        return done('Failed to execute command');
+      } else {
+        done(null, file);
+      }
+    }, false, options.execOpts );
+  } // depsWriter()
 
-  });
-
+  return es.map(depsWriter);
 };

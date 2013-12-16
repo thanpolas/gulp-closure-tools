@@ -3,8 +3,8 @@
  *
  */
 
+var es = require('event-stream');
 var gutil = require('gulp-util');
-
 var taskLib = require('task-closure-tools');
 
 var cHelpers = taskLib.helpers;
@@ -12,13 +12,23 @@ var cBuilder = require('./closureBuilder');
 var cCompiler = require('./closureCompiler');
 var cDepsWriter = require('./closureDepsWriter');
 
-var cTools = module.exports = function(grunt) {
+var cTools = module.exports = {};
 
-  // register the rest of the tasks
-  cBuilder(grunt);
-  cCompiler(grunt);
-  cDepsWriter(grunt);
 
+cTools.builder = function(opts) {
+  return es.map(cTools.run.bind(null, opts));
+};
+
+/**
+ * Executes.
+ *
+ * @param {Object} opts Options passed.
+ * @param {string} file the filename.
+ * @param {Function} done the callback.
+ */
+cTools.run = function(opts, file, done) {
+
+  done(null, file);
 };
 
 // overwrite helper's logging methods
