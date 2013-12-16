@@ -48,7 +48,8 @@ module.exports = function(dest, opts) {
     if ( cmd ) {
       commands.push( {cmd: cmd, dest: targetName} );
     } else if (!options.checkModified) {
-      errmsg = 'Failed to create command line for target: ' + targetName.red ;
+      errmsg = 'Failed to create command line for target: ' +
+        gutil.colors.red(targetName);
       gutil.log(errmsg);
       return done(errmsg);
     }

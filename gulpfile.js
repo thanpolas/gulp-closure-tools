@@ -21,7 +21,6 @@ gulp.task('depsWriter', function() {
     }));
 });
 
-
 gulp.task('compile', function() {
   gulp.src('temp/build.bundled.js')
     .pipe(gulpClosuretools.compiler('temp/compiler.compiled.js', {
@@ -33,5 +32,15 @@ gulp.task('compile', function() {
         summary_detail_level: 3,
         output_wrapper: '"(function(){%output%}).call(this);"',
       },
+    }));
+});
+
+gulp.task('builderBundle', function() {
+  gulp.src(['test/case/js/', 'test/case/closureMock'])
+    .pipe(gulpClosuretools.builder('temp/build.bundled.js', {
+      builder: cTools.getPath('build/closurebuilder.py'),
+      inputs: 'test/case/js/app.js',
+      output_mode: 'script',
+      compile: false,
     }));
 });

@@ -14,7 +14,7 @@ var taskLib = require('task-closure-tools');
 var cBuilder = taskLib.builder;
 var cHelpers = taskLib.helpers;
 
-module.exports = function( opts ) {
+module.exports = function(dest, opts) {
 
   var options = opts;
 
@@ -30,29 +30,31 @@ module.exports = function( opts ) {
 
 
   function closureBuilder(file, done) {
+    console.log('FILE\n',file);
     //
     // Prepare and compile the command string we will execute
     //
     // Iterate over all specified file groups.
-    var commands = [], cmd;
-    var targetName = file;
+    var commands = [];
+    var targetName = dest;
     var fileObj = {
-      src: file,
+      src: file.path,
     };
     var errmsg;
 
-    if ( !cBuilder.validateFileObj( options, fileObj )) {
-      errmsg = 'Failed validations for target: ' + targetName.red;
+    if ( !cBuilder.validateFileObj(options, fileObj)) {
+      errmsg = 'Failed validations for target: ' + gutil.colors.red(targetName);
       gutil.log(errmsg);
       return done(errmsg);
     }
 
-    cmd = cBuilder.createCommand( options, fileObj );
+    var cmd = cBuilder.createCommand(options, fileObj);
 
-    if ( cmd ) {
+    if (cmd) {
       commands.push( {cmd: cmd, dest: targetName, fileObj: fileObj} );
     } else {
-      errmsg = 'Failed to create command line for target: ' + targetName.red ;
+      errmsg = 'Failed to create command line for target: ' +
+        gutil.colors.red(targetName);
       gutil.log(errmsg);
       return done(errmsg);
     }
