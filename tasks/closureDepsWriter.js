@@ -15,7 +15,8 @@ var cHelpers = taskLib.helpers;
 
 module.exports = function(opts) {
 
-  var options = opts();
+  var options = opts;
+  console.log('OPTS', opts);
 
   if ( !cDepsWriter.validate( options ) ) {
     var err = new Error('FAILED to run closureDepsWriter task, Validation Error.');
