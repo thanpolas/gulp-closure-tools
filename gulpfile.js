@@ -14,10 +14,8 @@ var gulpClosuretools = require('./');
 
 gulp.task('depsWriter', function() {
   gulp.src('test/case') // src is irrelevant for the depsWriter task
-    .pipe(gulpClosuretools.depsWriter({
+    .pipe(gulpClosuretools.depsWriter('temp/deps.js', {
       root: 'test/case',
       depswriter: cTools.getPath('build/depswriter.py'),
-    }))
-    .pipe(gulp.dest('temp/deps.js'));
+    }));
 });
-

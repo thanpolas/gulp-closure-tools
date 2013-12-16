@@ -13,10 +13,9 @@ var taskLib = require('task-closure-tools');
 var cDepsWriter = taskLib.depsWriter;
 var cHelpers = taskLib.helpers;
 
-module.exports = function(opts) {
+module.exports = function(dest, opts) {
 
   var options = opts;
-  console.log('OPTS', opts);
 
   if ( !cDepsWriter.validate( options ) ) {
     var err = new Error('FAILED to run closureDepsWriter task, Validation Error.');
@@ -26,18 +25,20 @@ module.exports = function(opts) {
 
   function depsWriter(file, done) {
     var commands = [];
-    var targetName = file;
+    var targetName = dest;
     var errmsg;
     var fileObj = {
       src: file,
+      dest: dest,
     };
 
-    var cmd = cDepsWriter.createCommand( options, fileObj );
+    var cmd = cDepsWriter.createCommand(options, fileObj);
 
     if (cmd) {
       commands.push( {cmd: cmd, dest: targetName} );
     } else {
-      errmsg = 'Failed to create command line for target: ' + targetName.red ;
+      errmsg = 'Failed to create command line for target: ' +
+        gutil.colors.red(targetName);
       gutil.log(errmsg);
       return done(errmsg);
     }
